@@ -3,6 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppartenanceModule } from './appartenance/appartenance.module';
+import { CategoryModule } from './category/category.module';
+import { CommentModule } from './comment/comment.module';
+import { PictureModule } from './picture/picture.module';
+import { RoleModule } from './role/role.module';
+import { StoreModule } from './store/store.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +24,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [],
       synchronize: false,
     }),
+    AppartenanceModule,
+    CategoryModule,
+    CommentModule,
+    PictureModule,
+    RoleModule,
+    StoreModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
