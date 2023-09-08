@@ -7,10 +7,10 @@ async function bootstrap() {
   app.setGlobalPrefix(`api`);
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Simplon Hub API')
+    .setDescription('The Simplon Hub API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('SimplonHub')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
