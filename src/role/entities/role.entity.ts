@@ -7,4 +7,4 @@ export class Role {
 
     @Column({ type: 'varchar', length: 20 })
     role: string;
- }
+}
