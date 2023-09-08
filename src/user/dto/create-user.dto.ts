@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from 'src/role/entities/role.entity';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -13,10 +14,4 @@ export class CreateUserDto {
   phone: string | null;
   @ApiProperty()
   password: string;
-  @ApiProperty()
-  date_in: Date | null;
-  @ApiProperty()
-  date_out: Date | null;
-  @ApiProperty()
-  role_id: number;
 }
