@@ -1,4 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsOptional, IsPositive, Max } from 'class-validator';
 
 export class CreateCommentDto {
   @ApiProperty()
@@ -8,5 +9,9 @@ export class CreateCommentDto {
   store_id: number;
 
   @ApiProperty()
+  @IsInt()
+  @Max(5)
+  @IsOptional()
+  @IsPositive()
   note: number;
 }
