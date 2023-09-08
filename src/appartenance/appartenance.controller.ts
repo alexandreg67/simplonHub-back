@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AppartenanceService } from './appartenance.service';
 import { CreateAppartenanceDto } from './dto/create-appartenance.dto';
 import { UpdateAppartenanceDto } from './dto/update-appartenance.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('appartenance')
 @Controller('appartenance')
 export class AppartenanceController {
   constructor(private readonly appartenanceService: AppartenanceService) {}
@@ -23,7 +33,10 @@ export class AppartenanceController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAppartenanceDto: UpdateAppartenanceDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAppartenanceDto: UpdateAppartenanceDto,
+  ) {
     return this.appartenanceService.update(+id, updateAppartenanceDto);
   }
 

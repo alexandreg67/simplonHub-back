@@ -10,11 +10,11 @@ export class Appartenance {
   @PrimaryColumn()
   category_id: number;
 
-//   @ManyToOne(() => Store, (store) => store.id)
-//   @JoinColumn({ name: 'store_id' })
-//   store: Store;
+  //   @ManyToOne(() => Store, (store) => store.id)
+  //   @JoinColumn({ name: 'store_id' })
+  //   store: Store;
 
-//   @ManyToOne(() => Category, (category) => category.id)
-//   @JoinColumn({ name: 'category_id' })
-//   category: Category;
+  //   @ManyToOne(() => Category, (category) => category.id)
+  //   @JoinColumn({ name: 'category_id' })
+  //   category: Category;
 }
