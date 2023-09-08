@@ -16,6 +16,7 @@ import { Picture } from './picture/entities/picture.entity';
 import { Role } from './role/entities/role.entity';
 import { Store } from './store/entities/store.entity';
 import { User } from './user/entities/user.entity';
+import { Comment } from './comment/entities/comment.entity';
 
 @Module({
 imports: [

@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AppartenanceService } from './appartenance.service';
 import { CreateAppartenanceDto } from './dto/create-appartenance.dto';
 import { UpdateAppartenanceDto } from './dto/update-appartenance.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('appartenance')
 @Controller('appartenance')
 export class AppartenanceController {
   constructor(private readonly appartenanceService: AppartenanceService) {}
