@@ -1,4 +1,6 @@
-import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Store } from 'src/store/entities/store.entity';
+import { Entity, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 
 @Entity('appartenance')
 export class Appartenance {
@@ -8,11 +10,11 @@ export class Appartenance {
   @PrimaryColumn()
   category_id: number;
 
-  //   @ManyToOne(() => Store, (store) => store.id)
-  //   @JoinColumn({ name: 'store_id' })
-  //   store: Store;
+  @ManyToOne(() => Store, (store) => store.id)
+  @JoinColumn({ name: 'store_id' })
+  store: Store;
 
-  //   @ManyToOne(() => Category, (category) => category.id)
-  //   @JoinColumn({ name: 'category_id' })
-  //   category: Category;
+  @ManyToOne(() => Category, (category) => category.id)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }

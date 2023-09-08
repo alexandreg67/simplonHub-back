@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Picture } from 'src/picture/entities/picture.entity';
 import { User } from 'src/user/entities/user.entity';
 
@@ -7,10 +7,12 @@ export class CreateStoreDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsNotEmpty()
   name: string;
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsNotEmpty()
   phone: string;
   @ApiProperty()
   @IsString()
@@ -49,6 +51,7 @@ export class CreateStoreDto {
   description: string | null;
 
   @ApiProperty()
+  @IsNotEmpty()
   user: User;
 
   @ApiProperty()
