@@ -22,11 +22,11 @@ export class Comment {
   @Column({ type: 'int', nullable: true })
   note: number | null;
 
-  @ManyToOne(() => User, (user) => user.comments)
+  @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Store, (store) => store.comments)
+  @ManyToOne(() => Store, (store) => store.id)
   @JoinColumn({ name: 'store_id' })
   store: Store;
 }
