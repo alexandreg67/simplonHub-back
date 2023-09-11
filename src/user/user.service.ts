@@ -25,7 +25,10 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.userRepository.find();
+    const user = await this.userRepository.find({
+      relations: ['role'],
+    });
+    return user;
   }
 
   async findOne(id: number) {

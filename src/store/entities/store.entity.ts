@@ -9,8 +9,8 @@ import {
   JoinColumn,
   OneToMany,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { Appartenance } from 'src/appartenance/entities/appartenance.entity';
 import { Category } from 'src/category/entities/category.entity';
 
 @Entity('store')
@@ -62,6 +62,11 @@ export class Store {
   @OneToMany(() => Comment, (comment) => comment.store)
   comments: Comment[];
 
-  @ManyToMany(() => Category, (category) => category.appartenances)
-  appartenances: Appartenance[];
+  @ManyToMany(() => Category, (category) => category.stores, { eager: true })
+  @JoinTable({
+    name: 'appartenance', // nom de la table de jointure
+    joinColumn: { name: 'store_id', referencedColumnName: 'id' }, // colonne de cette entité
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }, // colonne de l'entité cible
+  })
+  categories: Category[];
 }
