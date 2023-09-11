@@ -1,4 +1,3 @@
-import { Appartenance } from 'src/appartenance/entities/appartenance.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { Picture } from 'src/picture/entities/picture.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -8,6 +7,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -65,6 +65,11 @@ export class Store {
   @OneToMany(() => Comment, (comment) => comment.store)
   comments: Comment[];
 
-  @ManyToMany(() => Category, (category) => category.appartenances)
-  appartenances: Appartenance[];
+  @ManyToMany(() => Category, (category) => category.stores, { eager: true })
+  @JoinTable({
+    name: 'appartenance', // nom de la table de jointure
+    joinColumn: { name: 'store_id', referencedColumnName: 'id' }, // colonne de cette entité
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }, // colonne de l'entité cible
+  })
+  categories: Category[];
 }
