@@ -42,7 +42,9 @@ export class User {
   @Column()
   role_id: number;
 
-  @ManyToOne(() => Role, { eager: true, nullable: false })
+  // Relations avec role store & comment
+
+  @ManyToOne(() => Role, (role) => role.id)
   @JoinColumn({ name: 'role_id' })
   role: Role;
 

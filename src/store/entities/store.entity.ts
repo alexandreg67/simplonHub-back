@@ -8,9 +8,9 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -52,20 +52,19 @@ export class Store {
   @Column({ nullable: true })
   picture_id: number | null;
 
-  @ManyToOne(() => User, (user) => user.stores, { nullable: false })
+  // Relations avec les entitées user, picture comment & appatenance
+
+  @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToOne(() => Picture, { nullable: true })
+  @ManyToOne(() => Picture, (picture) => picture.id)
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
   @OneToMany(() => Comment, (comment) => comment.store)
   comments: Comment[];
 
-  @OneToMany(() => Category, (category) => category.stores)
-  categories: Category[];
-
-  @OneToMany(() => Appartenance, (appartenance) => appartenance.store)
+  @ManyToMany(() => Category, (category) => category.appartenances)
   appartenances: Appartenance[];
 }

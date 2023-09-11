@@ -9,6 +9,8 @@ export class Role {
   @Column({ type: 'varchar', length: 20 })
   role: string;
 
+  // Relations avec l'es' entitée user
+
   @OneToMany(() => User, (user) => user.role)
   users: User[];
 }
