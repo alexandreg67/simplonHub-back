@@ -2,6 +2,12 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 export class CreateStoreDto {
+  category_ids(category_ids: any) {
+    throw new Error('Method not implemented.');
+  }
+  categories(categories: any) {
+    throw new Error('Method not implemented.');
+  }
   @ApiProperty()
   @IsString()
   @MaxLength(255)
@@ -55,4 +61,8 @@ export class CreateStoreDto {
 
   @ApiProperty()
   picture_id: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  categoryIds: number[];
 }

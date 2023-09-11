@@ -9,7 +9,7 @@ import { Category } from 'src/category/entities/category.entity';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Store])],
+  imports: [TypeOrmModule.forFeature([Store, Category])],
   controllers: [StoreController],
   providers: [StoreService],
 })
