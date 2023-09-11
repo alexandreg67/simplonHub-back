@@ -8,8 +8,10 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { Appartenance } from 'src/appartenance/entities/appartenance.entity';
+import { Category } from 'src/category/entities/category.entity';
 
 @Entity('store')
 export class Store {
@@ -60,6 +62,6 @@ export class Store {
   @OneToMany(() => Comment, (comment) => comment.store)
   comments: Comment[];
 
-  @OneToMany(() => Appartenance, (appartenance) => appartenance.store)
+  @ManyToMany(() => Category, (category) => category.appartenances)
   appartenances: Appartenance[];
 }

@@ -18,6 +18,7 @@ export class UserService {
     if (!defaultRole) {
       throw new NotFoundException('Default role not found');
     }
+    newUser.date_in = new Date(); // set date_in
     newUser.role_id = defaultRole.id; // set default role
     const user = await this.userRepository.save(newUser); // INSERT INTO user (username, password, role_id) VALUES ('', '', 1)
     return user;
