@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Store } from "src/store/entities/store.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity ( {name: 'picture'})
 export class Picture { 
@@ -13,4 +14,7 @@ export class Picture {
 
     @Column( {type: 'varchar', length: 255 })
     path: string;
+
+    @OneToMany(() => Store, (store) => store.picture)
+    stores: Store[];
 }

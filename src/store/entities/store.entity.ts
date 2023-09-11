@@ -1,4 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Appartenance } from "src/appartenance/entities/appartenance.entity";
+import { Comment } from "src/comment/entities/comment.entity";
+import { Picture } from "src/picture/entities/picture.entity";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity( {name: 'store'})
 export class Store {
@@ -37,4 +41,19 @@ export class Store {
 
     @Column({ nullable: true })
     picture_id: number;
+
+    @ManyToOne(() => User, (user) => user.id)
+    @JoinColumn({ name: 'user_id' })
+    user: User;
+
+    @ManyToOne(() => Picture, (picture) => picture.id)
+    @JoinColumn({ name: 'picture_id' })
+    picture: Picture | null;
+
+    @OneToMany(() => Comment, (comment) => comment.store)
+    comments: Comment[];
+
+    @OneToMany(() => Appartenance, (appartenance) => appartenance.store)
+    appartenances: Appartenance[];
+    
  }

@@ -1,27 +1,33 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
 import { Role } from "src/role/entities/role.entity";
+import { ManyToOne } from "typeorm";
+
 
 export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsNotEmpty()
   firstname: string;
 
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsNotEmpty()
   pseudo: string;
 
   @ApiProperty()
   @IsString()
   @MaxLength(255)
   @IsEmail()
+  @IsNotEmpty()
   mail: string;
 
   @ApiProperty()
@@ -32,7 +38,10 @@ export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @MaxLength(60)
+  @IsNotEmpty()
   password: string;
+
+ 
 }
     
 
