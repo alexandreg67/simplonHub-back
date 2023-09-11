@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateStoreDto {
   @ApiProperty()
@@ -52,5 +52,10 @@ export class CreateStoreDto {
   user_id: number;
 
   @ApiProperty()
+  @IsOptional()
   picture_id: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  categoryIds: number[];
 }
