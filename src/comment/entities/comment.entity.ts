@@ -13,10 +13,10 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  @Column()
+  @Column({ type: 'int', nullable: false })
   store_id: number;
 
   @Column({ type: 'int', nullable: true })

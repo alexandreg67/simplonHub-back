@@ -6,16 +6,14 @@ import {
   IsPositive,
   Max,
 } from 'class-validator';
-import { Store } from 'src/store/entities/store.entity';
-import { User } from 'src/user/entities/user.entity';
 
 export class CreateCommentDto {
   @ApiProperty()
   @IsNotEmpty()
-  user: User;
+  user_id: number;
   @ApiProperty()
   @IsNotEmpty()
-  store: Store;
+  store_id: number;
   @IsInt()
   @ApiProperty()
   @Max(5)

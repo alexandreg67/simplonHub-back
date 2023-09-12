@@ -10,6 +10,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  OneToOne,
 } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
 
@@ -55,7 +56,7 @@ export class Store {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Picture, (picture) => picture.id)
+  @OneToOne(() => Picture, (picture) => picture.id)
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 

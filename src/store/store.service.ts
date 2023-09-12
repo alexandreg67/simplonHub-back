@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/entities/user.entity';
+import { Picture } from 'src/picture/entities/picture.entity';
 
 export class StoreService {
   constructor(
@@ -13,8 +14,6 @@ export class StoreService {
     private readonly storeRepository: Repository<Store>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
   ) {}
   async create(createStoreDto: CreateStoreDto) {
     const store = new Store();
@@ -24,9 +23,14 @@ export class StoreService {
     // Récupération des catégories à partir des identifiants fournis
     const categories = await this.categoryRepository.find({
       where: {
-        id: In(createStoreDto.category_id),
+        id: In(createStoreDto.category_id), // In() permet de récupérer plusieurs catégories
       },
     });
+
+    // Récupération de picture à partir de l'identifiant fourni
+
+    store.categories = categories;
+    // store.picture_id = this.storeRepository.findOneBy(store.picture.id);
 
     return this.storeRepository.save(store);
   }
