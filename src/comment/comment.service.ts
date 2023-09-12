@@ -13,7 +13,8 @@ export class CommentService {
   
   ) { }
   create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+    const newComment = this.commentRepository.create(createCommentDto);
+    return this.commentRepository.save(newComment);
   }
 
   async findAll() {
