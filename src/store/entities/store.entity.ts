@@ -1,11 +1,20 @@
-import { Appartenance } from 'src/appartenance/entities/appartenance.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { Picture } from 'src/picture/entities/picture.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('store')
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity({ name: 'store' })
 export class Store {
   @PrimaryGeneratedColumn()
   id: number;
@@ -42,18 +51,25 @@ export class Store {
 
   @Column({ nullable: true })
   picture_id: number | null;
-  user: any;
 
-  @OneToOne(() => Picture, { nullable: true })
+  // Relations avec les entitées user, picture comment & appatenance
+
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => Picture, (picture) => picture.id)
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
   @OneToMany(() => Comment, (comment) => comment.store)
   comments: Comment[];
 
-  @OneToMany(() => Category, (category) => category.stores)
+  @ManyToMany(() => Category, (category) => category.stores, { eager: true })
+  @JoinTable({
+    name: 'appartenance', // nom de la table de jointure
+    joinColumn: { name: 'store_id', referencedColumnName: 'id' }, // colonne de cette entité
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }, // colonne de l'entité cible
+  })
   categories: Category[];
-
-  @OneToMany(() => Appartenance, (appartenance) => appartenance.store)
-  appartenances: Appartenance[];
 }

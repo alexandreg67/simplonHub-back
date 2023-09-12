@@ -1,53 +1,61 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
-import { ManyToOne } from "typeorm";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreateUserDto {
-  
+export class CreateStoreDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsNotEmpty()
   name: string;
-  
+
   @ApiProperty()
-   @IsString()
+  @IsString()
   @MaxLength(255)
-   @IsNotEmpty()
-  firstname: string;
+  phone: string;
 
   @ApiProperty()
-   @IsString()
+  @IsString()
   @MaxLength(255)
-   @IsNotEmpty()
-  pseudo: string;
+  number: string;
 
   @ApiProperty()
-   @IsString()
+  @IsString()
   @MaxLength(255)
-  @IsEmail()
-   @IsNotEmpty()
-  mail: string;
+  street: string;
 
   @ApiProperty()
-   @IsString()
-  @MaxLength(10)
-  phone: string | null;
+  @IsString()
+  @MaxLength(150)
+  city: string;
 
   @ApiProperty()
-   @IsString()
-  @MaxLength(60)
-   @IsNotEmpty()
-  password: string;
+  @IsString()
+  @MaxLength(5)
+  zip: string;
 
-  
+  @ApiProperty()
+  @IsString()
+  @MaxLength(255)
+  web: string;
 
-  // @ApiProperty()
-  // date_in: Date | null;
+  @ApiProperty()
+  @IsString()
+  @MaxLength(255)
+  map: string;
 
-  // @ApiProperty()
-  // date_out: Date | null;
+  @ApiProperty()
+  @IsString()
+  @MaxLength(255)
+  description: string;
 
-  // @ApiProperty()
-  // role_id: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  user_id: number;
+
+  @ApiProperty()
+  @IsOptional()
+  picture_id: number;
+
+  @ApiProperty({ example: [1, 2] })
+  @IsNotEmpty()
+  category_id: number[];
 }
