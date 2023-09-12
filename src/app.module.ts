@@ -17,6 +17,7 @@ import { Picture } from './picture/entities/picture.entity';
 import { Role } from './role/entities/role.entity';
 import { Store } from './store/entities/store.entity';
 import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { User } from './user/entities/user.entity';
     RoleModule,
     StoreModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

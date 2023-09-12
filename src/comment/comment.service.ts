@@ -37,9 +37,6 @@ export class CommentService {
 
   async remove(id: number) {
     const found = await this.findOne(id);
-    if (!found) {
-      throw new NotFoundException (`Le commentaire d'id ${id} n'existe pas.`);
-    }
     return await this.commentRepository.remove(found);
   }
 }
