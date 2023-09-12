@@ -3,7 +3,7 @@ import { Category } from "src/category/entities/category.entity";
 import { Comment } from "src/comment/entities/comment.entity";
 import { Picture } from "src/picture/entities/picture.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'store' })
 export class Store {
@@ -47,7 +47,7 @@ export class Store {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Picture, (picture) => picture.id)
+  @OneToOne(() => Picture, (picture) => picture.id)
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
