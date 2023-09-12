@@ -11,6 +11,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -58,7 +59,7 @@ export class Store {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Picture, (picture) => picture.id)
+  @OneToOne(() => Picture, (picture) => picture.id)
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
@@ -73,3 +74,4 @@ export class Store {
   })
   categories: Category[];
 }
+

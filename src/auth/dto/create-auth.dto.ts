@@ -7,7 +7,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateAuthDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)

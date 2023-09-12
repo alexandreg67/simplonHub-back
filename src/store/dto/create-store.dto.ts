@@ -53,7 +53,7 @@ export class CreateStoreDto {
 
   @ApiProperty()
   @IsOptional()
-  picture_id: number;
+  picture_id: number | null;
 
   @ApiProperty({ example: [1, 2] })
   @IsNotEmpty()

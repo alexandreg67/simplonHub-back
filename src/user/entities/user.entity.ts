@@ -1,42 +1,50 @@
-import { Role } from "src/role/entities/role.entity";
-import { Comment } from "src/comment/entities/comment.entity";
-import { Store } from "src/store/entities/store.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from 'src/role/entities/role.entity';
+import { Store } from 'src/store/entities/store.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity('user')
+@Entity({ name: 'user' })
 export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ type: 'varchar', length: 255 })
+  name: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    name: string;
+  @Column({ type: 'varchar', length: 255 })
+  firstname: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    firstname: string;
+  @Column({ type: 'varchar', length: 255 })
+  pseudo: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    pseudo: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  mail: string;
 
-    @Column({ type: 'varchar', length: 255, unique: true })
-    mail: string;
+  @Column({ type: 'char', length: 10, nullable: true })
+  phone: string | null;
 
-    @Column({ type: 'char', length: 10, nullable: true })
-    phone: string | null;
+  @Column({ type: 'char', length: 60 })
+  password: string;
 
-    @Column({ type: 'char', length: 60 })
-    password: string;
+  @Column({ type: 'date', nullable: true })
+  date_in: Date | null;
 
-    @Column({ type: 'date', nullable: true })
-    date_in: Date | null;
+  @Column({ type: 'date', nullable: true })
+  date_out: Date | null;
 
-    @Column({ type: 'date', nullable: true })
-    date_out: Date | null;
+  @Column()
+  role_id: number;
 
-    @Column()
-    role_id: number;
+  // Relations avec role store & comment
 
-  @ManyToOne(() => Role, { eager: true, nullable: false })
+  @ManyToOne(() => Role, (role) => role.id)
   @JoinColumn({ name: 'role_id' })
   role: Role;
 

@@ -1,38 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Role } from './entities/role.entity';
-import { Repository } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@Injectable()
-export class RoleService {
-  //injection du repository pour pour l'entité Role
-  constructor(
-    @InjectRepository(Role)
-    private roleRepository: Repository<Role>,
-  ) {}
-  create(createRoleDto: CreateRoleDto) {
-    return 'This action adds a new role';
-  }
+@Entity({ name: 'role' })
+export class Role {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  async findAll() {
-    return await this.roleRepository.find();
-  }
+  @Column({ type: 'varchar', length: 20 })
+  role: string;
 
-  async findOne(id: number) {
-    const found = await this.roleRepository.findOneBy({ id: id });
-    if (!found) {
-      throw new NotFoundException('Etablissement non trouvé');
-    }
-    return found;
-  }
+  // Relations avec l'es' entitée user
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} role`;
-  }
+  @OneToMany(() => User, (user) => user.role)
+  users: User[];
 }

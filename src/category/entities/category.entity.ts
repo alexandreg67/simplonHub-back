@@ -1,8 +1,7 @@
-import { Appartenance } from "src/appartenance/entities/appartenance.entity";
-import { Store } from "src/store/entities/store.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Store } from 'src/store/entities/store.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
-@Entity('category')
+@Entity({ name: 'category' })
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,9 +9,6 @@ export class Category {
   @Column({ type: 'varchar', length: 150 })
   category: string;
 
-    @OneToMany(() => Store, (store) => store.categories)
+  @ManyToMany(() => Store, (store) => store.categories)
   stores: Store[];
-
-  @OneToMany(() => Appartenance, (appartenance) => appartenance.category)
-  appartenances: Appartenance[];
 }

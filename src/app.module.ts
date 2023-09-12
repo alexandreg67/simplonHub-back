@@ -17,6 +17,7 @@ import { Role } from './role/entities/role.entity';
 import { Store } from './store/entities/store.entity';
 import { User } from './user/entities/user.entity';
 import { Comment } from './comment/entities/comment.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 imports: [
@@ -38,6 +39,7 @@ imports: [
     RoleModule,
     StoreModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

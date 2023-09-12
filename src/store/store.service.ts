@@ -66,6 +66,10 @@ export class StoreService {
     if (!storeToRemove) {
       throw new NotFoundException('Etablissement non trouvé');
     }
+
     return this.storeRepository.remove(storeToRemove);
   }
 }
+
+
+
