@@ -1,6 +1,6 @@
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Store } from './entities/store.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
@@ -21,6 +21,13 @@ export class StoreService {
 
     Object.assign(store, createStoreDto);
 
+    // Récupération des catégories à partir des identifiants fournis
+    const categories = await this.categoryRepository.find({
+      where: {
+        id: In(createStoreDto.category_id),
+      },
+    });
+
     return this.storeRepository.save(store);
   }
 
@@ -29,7 +36,7 @@ export class StoreService {
   }
 
   async findOne(id: number) {
-    const found = await this.storeRepository.findOneBy({ id });
+    const found = await this.storeRepository.findOneBy({ id: id });
     if (!found) {
       throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
@@ -44,6 +51,9 @@ export class StoreService {
 
   async remove(id: number) {
     const storeToRemove = await this.findOne(id);
+    if (!storeToRemove) {
+      throw new NotFoundException(`Etablissement #${id} non trouvé`);
+    }
     return this.storeRepository.remove(storeToRemove);
   }
 }
