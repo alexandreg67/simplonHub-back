@@ -12,16 +12,28 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
   ) {}
-  async create(createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create(createUserDto); // new User()
-    const defaultRole = await this.roleRepository.findOneBy({ role: 'user' }); // SELECT * FROM role WHERE role = 'user'
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const newUser = new User();
+
+    // Copie des propriétés du DTO directement dans l'objet newUser
+    Object.assign(newUser, createUserDto);
+
+    // Récupération du rôle par défaut
+    const defaultRole = await this.roleRepository.findOne({
+      where: { role: 'user' },
+    });
+
+    // Vérification si le rôle par défaut a été trouvé
     if (!defaultRole) {
       throw new NotFoundException('Default role not found');
     }
-    newUser.date_in = new Date(); // set date_in
-    newUser.role_id = defaultRole.id; // set default role
-    const user = await this.userRepository.save(newUser); // INSERT INTO user (username, password, role_id) VALUES ('', '', 1)
-    return user;
+
+    // Association du rôle par défaut et de la date d'inscription à newUser
+    newUser.date_in = new Date();
+    newUser.role_id = defaultRole.id;
+
+    // Sauvegarde du nouvel utilisateur avec le rôle associé
+    return await this.userRepository.save(newUser);
   }
 
   async findAll() {

@@ -24,12 +24,12 @@ export class StoreService {
     // Récupération des catégories à partir des identifiants fournis
     const categories = await this.categoryRepository.find({
       where: {
-        id: In(createStoreDto.categoryIds),
+        id: In(createStoreDto.category_id),
       },
     });
 
     // Vérification si toutes les catégories ont été trouvées
-    if (categories.length !== createStoreDto.categoryIds.length) {
+    if (categories.length !== createStoreDto.category_id.length) {
       throw new Error(
         "Certaines catégories fournies ne sont pas valides ou n'existent pas.",
       );
@@ -63,6 +63,9 @@ export class StoreService {
 
   async remove(id: number) {
     const storeToRemove = await this.findOne(id);
+    if (!storeToRemove) {
+      throw new NotFoundException('Etablissement non trouvé');
+    }
 
     return this.storeRepository.remove(storeToRemove);
   }
