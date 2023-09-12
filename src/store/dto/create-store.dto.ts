@@ -1,13 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
-export class CreateStoreDto {
-  category_ids(category_ids: any) {
-    throw new Error('Method not implemented.');
-  }
-  categories(categories: any) {
-    throw new Error('Method not implemented.');
-  }
+export class CreateStoreDto {  
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
