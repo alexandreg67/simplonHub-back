@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/role/entities/role.entity";
+import { Comment } from "src/comment/entities/comment.entity";
+import { Store } from "src/store/entities/store.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('user')
 export class User {
@@ -33,11 +36,13 @@ export class User {
     @Column()
     role_id: number;
 
-    // @ManyToOne(() => User, user => user.id)
-  // @JoinColumn({ name: 'user_id' })
-  // user: User;
+  @ManyToOne(() => Role, { eager: true, nullable: false })
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
-  // @ManyToOne(() => Picture, picture => picture.id, { nullable: true })
-  // @JoinColumn({ name: 'picture_id' })
-  // picture: Picture | null;
+  @OneToMany(() => Store, (store) => store.user)
+  stores: Store[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }
