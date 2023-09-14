@@ -4,10 +4,14 @@ import { CommentController } from './comment.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Comment } from './entities/comment.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { PassportModule } from '@nestjs/passport';
 
 @ApiTags('comment')
 @Module({
-  imports: [TypeOrmModule.forFeature([Comment])],
+  imports: [
+    TypeOrmModule.forFeature([Comment]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+  ],
   controllers: [CommentController],
   providers: [CommentService],
 })
