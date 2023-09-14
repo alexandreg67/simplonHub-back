@@ -20,12 +20,12 @@ import { Comment } from './comment/entities/comment.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-imports: [
+  imports: [
     ConfigModule.forRoot({ envFilePath: [`.env`] }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: +process.env.POSTGRES_PORT,
+      port: Number(process.env.POSTGRES_PORT),
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
@@ -41,6 +41,7 @@ imports: [
     UserModule,
     AuthModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })
