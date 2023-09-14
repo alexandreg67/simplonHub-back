@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import * as bcrypt from 'bcrypt';
@@ -10,6 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Role } from 'src/role/entities/role.entity';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +21,7 @@ export class AuthService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private jwtService: JwtService,
   ) {}
   async register(createAuthDto: CreateAuthDto) {
     const { name, firstname, pseudo, mail, phone, password } = createAuthDto;
@@ -54,6 +58,21 @@ export class AuthService {
       } else {
         throw new InternalServerErrorException();
       }
+    }
+  }
+
+  async login(loginDto: LoginDto) {
+    const { mail, password } = loginDto;
+    const user = await this.userRepository.findOneBy({ mail });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const payload = { mail };
+      const accessToken = await this.jwtService.sign(payload);
+      return { accessToken };
+    } else {
+      throw new UnauthorizedException(
+        'Ces identifiants ne sont pas bons, déso...',
+      );
     }
   }
 }
