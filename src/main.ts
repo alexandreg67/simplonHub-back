@@ -8,6 +8,8 @@ async function bootstrap() {
   app.setGlobalPrefix(`api`);
   app.useGlobalPipes(new ValidationPipe());
 
+  app.enableCors(); // Utilisation de cors
+
   const config = new DocumentBuilder()
     .setTitle('Simplon Hub API')
     .setDescription('The Simplon Hub API description')
