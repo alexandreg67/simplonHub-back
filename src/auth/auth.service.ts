@@ -78,4 +78,15 @@ export class AuthService {
       );
     }
   }
+
+  //canActivate
+  async validateToken(token: string): Promise<boolean> {
+    try {
+      const payload = this.jwtService.verify(token); // Vérifie le token
+      console.log('payload : ', payload);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
