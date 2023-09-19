@@ -68,11 +68,20 @@ export class AuthService {
       const payload = { mail };
       const accessToken = await this.jwtService.sign(payload);
       return { accessToken };
-    }
-    else {
+    } else {
       throw new UnauthorizedException(
         'Ces identifiants ne sont pas bons, déso...',
       );
+    }
+  }
+
+  async validateToken(token: string): Promise<boolean> {
+    try {
+      const payload = this.jwtService.verify(token); // Vérifie le token
+      console.log('payload : ', payload);
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 }
