@@ -60,7 +60,7 @@ export class Store {
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
-  @OneToMany(() => Comment, (comment) => comment.store)
+  @OneToMany(() => Comment, (comment) => comment.store, { eager: true })
   comments: Comment[];
 
   @ManyToMany(() => Category, (category) => category.stores, { eager: true })
