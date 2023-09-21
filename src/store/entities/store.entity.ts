@@ -63,7 +63,8 @@ export class Store {
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
-  @OneToMany(() => Comment, (comment) => comment.store)
+  //ajout de {eager: true} pour recupérer l'integralité de l'objet
+  @OneToMany(() => Comment, (comment) => comment.store, { eager: true })
   comments: Comment[];
 
   @ManyToMany(() => Category, (category) => category.stores, { eager: true })
