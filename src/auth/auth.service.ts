@@ -19,9 +19,9 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private jwtService: JwtService,
   ) {}
   async register(createAuthDto: CreateAuthDto) {
     const { name, firstname, pseudo, mail, phone, password } = createAuthDto;
@@ -47,18 +47,18 @@ export class AuthService {
     }
 
     // Association du rôle par défaut et de la date d'inscription à newUser
-    user.date_in = new Date();
-    user.role_id = defaultRole.id;
+    user.date_in = new Date(); // date_in
+    user.role_id = defaultRole.id; //fefault role
 
     try {
-      // enregistrement de l'entité user
+      // enregistrement de l'entité user 
       const createdUser = await this.userRepository.save(user);
       delete createdUser.password;
       return createdUser;
     } catch (error) {
       // gestion des erreurs
       if (error.code === '23505') {
-        throw new ConflictException('username already exists');
+        throw new ConflictException('user already exists');
       } else {
         throw new InternalServerErrorException();
       }
@@ -67,9 +67,9 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const { mail, password } = loginDto;
     const user = await this.userRepository.findOneBy({ mail });
-
+    const userId = user.id;
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload = { mail };
+      const payload = { mail, userId };
       const accessToken = await this.jwtService.sign(payload);
       return { accessToken };
     } else {
