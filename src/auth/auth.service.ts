@@ -1,31 +1,36 @@
-import { Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
 import { Role } from 'src/role/entities/role.entity';
-import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
     @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
+    private roleRepository: Repository<Role>,
+    private jwtService: JwtService,
   ) {}
-
   async register(createAuthDto: CreateAuthDto) {
     const { name, firstname, pseudo, mail, phone, password } = createAuthDto;
 
-    // Hashage du mot de passe
+    // hashage du mot de passe
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Création d'une entité user
+    // création d'une entité user
     const user = this.userRepository.create({
       name,
       firstname,
@@ -34,26 +39,22 @@ export class AuthService {
       phone,
       password: hashedPassword,
     });
-
-    // Création du role user par defaut
-    const defaultRole = await this.roleRepository.findOneBy({ role: 'user' });
+    const defaultRole = await this.roleRepository.findOneBy({ role: 'user' }); // SELECT * FROM role WHERE role = 'user'
     if (!defaultRole) {
-      throw new NotFoundException('Role not found');
+      throw new NotFoundException('Default role not found');
     }
-
-    // ajout des dates et du role
-    user.date_in = new Date();
-    user.role_id = defaultRole.id;
+    user.date_in = new Date(); // set date_in
+    user.role_id = defaultRole.id; // set default role
 
     try {
-      // enregistrement de l'entité user en base de données
+      // enregistrement de l'entité user
       const createdUser = await this.userRepository.save(user);
       delete createdUser.password;
       return createdUser;
     } catch (error) {
-      // Gestion des erreurs
+      // gestion des erreurs
       if (error.code === '23505') {
-        throw new Error('User already exist.');
+        throw new ConflictException('user already exists');
       } else {
         throw new InternalServerErrorException();
       }
@@ -63,9 +64,9 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const { mail, password } = loginDto;
     const user = await this.userRepository.findOneBy({ mail });
-
+    const userId = user.id;
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload = { mail };
+      const payload = { mail, userId };
       const accessToken = await this.jwtService.sign(payload);
       return { accessToken };
     } else {
