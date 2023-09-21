@@ -15,34 +15,17 @@ export class StoreService {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
   ) {}
-  async create(createStoreDto: CreateStoreDto): Promise<Store> {
+async create(createStoreDto: CreateStoreDto) {
     const store = new Store();
 
     // Copie des propriétés du DTO directement dans l'objet store
     Object.assign(store, createStoreDto);
 
     // Récupération des catégories à partir des identifiants fournis
-    const categories = await this.categoryRepository.find({
-      where: {
-        id: In(createStoreDto.category_id),
-      },
-    });
-
-    // Vérification si toutes les catégories ont été trouvées
-    if (categories.length !== createStoreDto.category_id.length) {
-      throw new Error(
-        "Certaines catégories fournies ne sont pas valides ou n'existent pas.",
-      );
-    }
-
-    // Association des catégories au magasin
-    store.categories = categories;
-
-    // Sauvegarde du magasin avec les catégories associées
-    return await this.storeRepository.save(store);
-  }
-
+   
   // Méthode asynchrone pour récupérer tous les magasins avec leurs catégories associées
+  return this.storeRepository.save(store);
+}
   async findAll() {
     return await this.storeRepository.find();
   }
@@ -50,7 +33,7 @@ export class StoreService {
   async findOne(id: number) {
     const found = await this.storeRepository.findOneBy({ id: id });
     if (!found) {
-      throw new NotFoundException('Etablissement non trouvé');
+      throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
     return found;
   }
