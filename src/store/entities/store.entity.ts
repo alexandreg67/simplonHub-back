@@ -1,11 +1,20 @@
-import { Appartenance } from "src/appartenance/entities/appartenance.entity";
-import { Category } from "src/category/entities/category.entity";
-import { Comment } from "src/comment/entities/comment.entity";
-import { Picture } from "src/picture/entities/picture.entity";
-import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Picture } from 'src/picture/entities/picture.entity';
+import { User } from 'src/user/entities/user.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  OneToOne,
+} from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
 
-@Entity({ name: 'store' })
+@Entity('store')
 export class Store {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,31 +26,31 @@ export class Store {
   phone: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  number: string;
+  number: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  street: string;
+  street: string | null;
 
   @Column({ type: 'varchar', length: 150, nullable: true })
-  city: string;
+  city: string | null;
 
   @Column({ type: 'char', length: 5, nullable: true })
-  zip: string;
+  zip: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  web: string;
+  web: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  map: string;
+  map: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  description: string;
+  description: string | null;
 
   @Column()
   user_id: number;
 
   @Column({ nullable: true })
-  picture_id: number;
+  picture_id: number | null;
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
