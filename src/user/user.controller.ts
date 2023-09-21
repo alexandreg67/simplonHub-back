@@ -16,7 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('subscribe')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
