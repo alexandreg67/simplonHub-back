@@ -42,7 +42,7 @@ export class User {
   @Column()
   role_id: number;
 
-  @ManyToOne(() => Role, (role) => role.id)
+  @ManyToOne(() => Role, (role) => role.id, { eager: true })
   @JoinColumn({ name: 'role_id' })
   role: Role;
 
