@@ -70,21 +70,15 @@ export class StoreService {
       categoryId,
     );
 
+    // Récupérez les magasins avec leurs catégories et commentaires associés
     const stores = await this.storeRepository
       .createQueryBuilder('store')
-      .leftJoinAndSelect('store.categories', 'category') // Left join et sélectionnez la catégorie pour chaque store
-      .where('category.id = :categoryId', { categoryId }) // Filtrez par categoryId
-      .leftJoinAndSelect('store.comments', 'comment') // Left join et sélectionnez les commentaires pour chaque store
+      .leftJoinAndSelect('store.categories', 'category')
+      .where('category.id = :categoryId', { categoryId })
+      .leftJoinAndSelect('store.comments', 'comment')
       .getMany();
+
     console.log('je suis dans le store service et je log stores : ', stores);
-
-    stores.forEach((store) => {
-      if (!store.comments) {
-        // Si le magasin n'a pas de commentaires
-        store.comments = [];
-      }
-    });
-
     return stores;
   }
 }
