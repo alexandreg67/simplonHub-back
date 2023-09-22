@@ -43,9 +43,9 @@ export class AuthController {
 
       if (user && user.date_out !== null) {
         // Si l'utilisateur est "soft-deleted"
-        return { valid: true, isDeleted: false };
+        return { valid: true, isDeleted: true };
       }
-      return { valid: true, isDeleted: true };
+      return { valid: true, isDeleted: false };
     } else {
       throw new UnauthorizedException('Token invalide');
     }

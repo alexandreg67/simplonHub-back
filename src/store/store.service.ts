@@ -42,6 +42,11 @@ export class StoreService {
     if (!found) {
       throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
+    if (!found.comments) {
+      found.comments = [];
+    }
+    console.log('je suis dans le store service et je log found : ', found);
+
     return found;
   }
 
@@ -57,5 +62,28 @@ export class StoreService {
       throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
     return this.storeRepository.remove(storeToRemove);
+  }
+
+  async getStoresByCategory(categoryId: string): Promise<Store[]> {
+    console.log(
+      'je suis dans le store service et je log categoryId : ',
+      categoryId,
+    );
+
+    const stores = await this.storeRepository
+      .createQueryBuilder('store')
+      .innerJoin('store.categories', 'category', 'category.id = :categoryId', {
+        categoryId,
+      })
+      .getMany();
+    console.log('je suis dans le store service et je log stores : ', stores);
+
+    stores.forEach((store) => {
+      if (!store.comments) {
+        store.comments = [];
+      }
+    });
+
+    return stores;
   }
 }
