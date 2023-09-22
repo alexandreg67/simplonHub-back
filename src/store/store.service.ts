@@ -42,6 +42,11 @@ export class StoreService {
     if (!found) {
       throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
+    if (!found.comments) {
+      found.comments = [];
+    }
+    console.log('je suis dans le store service et je log found : ', found);
+
     return found;
   }
 
@@ -57,5 +62,29 @@ export class StoreService {
       throw new NotFoundException(`Etablissement #${id} non trouvé`);
     }
     return this.storeRepository.remove(storeToRemove);
+  }
+
+  async getStoresByCategory(categoryId: string): Promise<Store[]> {
+    console.log(
+      'je suis dans le store service et je log categoryId : ',
+      categoryId,
+    );
+
+    const stores = await this.storeRepository
+      .createQueryBuilder('store')
+      .leftJoinAndSelect('store.categories', 'category') // Left join et sélectionnez la catégorie pour chaque store
+      .where('category.id = :categoryId', { categoryId }) // Filtrez par categoryId
+      .leftJoinAndSelect('store.comments', 'comment') // Left join et sélectionnez les commentaires pour chaque store
+      .getMany();
+    console.log('je suis dans le store service et je log stores : ', stores);
+
+    stores.forEach((store) => {
+      if (!store.comments) {
+        // Si le magasin n'a pas de commentaires
+        store.comments = [];
+      }
+    });
+
+    return stores;
   }
 }
