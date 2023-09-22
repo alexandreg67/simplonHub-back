@@ -72,14 +72,15 @@ export class StoreService {
 
     const stores = await this.storeRepository
       .createQueryBuilder('store')
-      .innerJoin('store.categories', 'category', 'category.id = :categoryId', {
-        categoryId,
-      })
+      .leftJoinAndSelect('store.categories', 'category') // Left join et sélectionnez la catégorie pour chaque store
+      .where('category.id = :categoryId', { categoryId }) // Filtrez par categoryId
+      .leftJoinAndSelect('store.comments', 'comment') // Left join et sélectionnez les commentaires pour chaque store
       .getMany();
     console.log('je suis dans le store service et je log stores : ', stores);
 
     stores.forEach((store) => {
       if (!store.comments) {
+        // Si le magasin n'a pas de commentaires
         store.comments = [];
       }
     });
