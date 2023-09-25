@@ -36,8 +36,10 @@ export class UserController {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Patch('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    console.log('je suis dans le controller softDelete', id);
+    return this.userService.softDelete(+id);
   }
 }
+

@@ -54,22 +54,69 @@ export class UserService {
     return this.userRepository.remove(userToRemove);
   }
 
+  // async checkToken(token: string) {
+  //   // Vérifie la validité du token
+  //   console.log('je suis dans checkToken : ', token);
+
+  //   return new Promise((resolve, reject) => {
+  //     // Crée une promesse
+  //     try {
+  //       jwt.verify(token, process.env.PRIVATEKEY_TOKEN); // Vérifie le token
+  //       console.log(
+  //         'je suis dans le try du checkToken : et le token est valide',
+  //       );
+  //       resolve(true); // Le token est valide
+  //     } catch (error) {
+  //       if (error instanceof jwt.TokenExpiredError) {
+  //         // Si le token a expiré
+  //         reject('Token has expired'); // Le token a expiré
+  //       } else {
+  //         reject('Token is invalid'); // Le token est invalide pour une autre raison
+  //       }
+  //     }
+  //   });
+  // }
+
+  async softDelete(userId: number): Promise<void> {
+    const userSoftDelete = await this.findOne(userId);
+    console.log('je suis dans userservice softdelete : ', userSoftDelete);
+
+    userSoftDelete.date_out = new Date();
+    await this.userRepository.save(userSoftDelete);
+  }
+
   async checkToken(token: string) {
-    // Vérifie la validité du token
     console.log('je suis dans checkToken : ', token);
 
-    return new Promise((resolve, reject) => {
-      // Crée une promesse
+    return new Promise(async (resolve, reject) => {
       try {
-        jwt.verify(token, process.env.PRIVATEKEY_TOKEN); // Vérifie le token
-        console.log(
-          'je suis dans le try du checkToken : et le token est valide',
-        );
-        resolve(true); // Le token est valide
+        const decodedToken = jwt.verify(
+          token,
+          process.env.PRIVATEKEY_TOKEN,
+        ) as any; // Vérifie le token et le décode
+
+        // Assurez-vous que votre token contient une clé `id` ou similaire avec l'ID de l'utilisateur
+        const userId = decodedToken.userId;
+
+        if (!userId) {
+          reject("Le token ne contient pas d'ID utilisateur");
+          return;
+        }
+
+        const user = await this.findOne(userId);
+        if (!user) {
+          reject("Le compte n'existe pas");
+          return;
+        }
+        if (user.date_out) {
+          reject('Le compte a été supprimé');
+          return;
+        }
+        resolve(true); // Le token est valide et l'utilisateur n'est pas supprimé
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
           // Si le token a expiré
-          reject('Token has expired'); // Le token a expiré
+          reject('Token has expired');
         } else {
           reject('Token is invalid'); // Le token est invalide pour une autre raison
         }

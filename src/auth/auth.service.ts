@@ -80,13 +80,28 @@ export class AuthService {
   }
 
   //canActivate
-  async validateToken(token: string): Promise<boolean> {
+  async validateToken(
+    token: string,
+  ): Promise<{ valid: boolean; userId?: number }> {
     try {
-      const payload = this.jwtService.verify(token); // Vérifie le token
+      const payload = this.jwtService.verify(token); // Vérifie le token et obtient le payload
       console.log('payload : ', payload);
-      return true;
+      const userId = payload.userId;
+      console.log('je suis dans validateToken userId : ', userId);
+
+      return { valid: true, userId };
     } catch (error) {
-      return false;
+      return { valid: false };
+    }
+  }
+
+  async findCurrentUser(token: string): Promise<User> {
+    try {
+      const { userId } = this.jwtService.verify(token);
+      const user = await this.userRepository.findOne(userId, { relations: ["role"] }); // supposant que "role" est la relation dans votre User entity
+      return user;
+    } catch (e) {
+      throw new UnauthorizedException();
     }
   }
 }

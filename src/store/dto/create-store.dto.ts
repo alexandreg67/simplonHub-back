@@ -35,11 +35,13 @@ export class CreateStoreDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsOptional()
   web: string;
 
   @ApiProperty()
   @IsString()
   @MaxLength(255)
+  @IsOptional()
   map: string;
 
   @ApiProperty()
@@ -54,8 +56,4 @@ export class CreateStoreDto {
   @ApiProperty()
   @IsOptional()
   picture_id: number | null;
-
-  @ApiProperty({ example: [1, 2] })
-  @IsNotEmpty()
-  category_id: number[];
 }
