@@ -5,20 +5,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Picture } from './entities/picture.entity';
 import { Repository } from 'typeorm';
 
+
 @Injectable()
 export class PictureService {
   constructor(
-    @InjectRepository(Picture) private pictureRepository: Repository<Picture>,
-  ) {}
+    @InjectRepository(Picture)
+    private readonly pictureRepository: Repository<Picture>,
+  ) { }
 
-  async create(createPictureDto: CreatePictureDto): Promise<Picture> {
+  create(createPictureDto: CreatePictureDto) {
     const picture = new Picture();
-
-    // Copie des propriétés du DTO directement dans l'objet picture
     Object.assign(picture, createPictureDto);
-
-    // Sauvegarde de l'image
-    return await this.pictureRepository.save(picture);
+    return this.pictureRepository.save(picture);
   }
 
   async findAll() {
@@ -26,9 +24,9 @@ export class PictureService {
   }
 
   async findOne(id: number) {
-    const found = await this.pictureRepository.findOneBy({ id: id });
+    const found =  await this.pictureRepository.findOneBy({ id: id });
     if (!found) {
-      throw new NotFoundException('image non trouvée');
+      throw new NotFoundException (`La photo d'id ${id} n'existe pas.`);
     }
     return found;
   }
@@ -40,11 +38,10 @@ export class PictureService {
   }
 
   async remove(id: number) {
-    const pictureToRemove = await this.findOne(id);
-    if (!pictureToRemove) {
-      throw new NotFoundException('Etablissement non trouvé');
+    const found = await this.findOne(id);
+    if (!found) {
+      throw new NotFoundException (`La photo d'id ${id} n'existe pas.`);
     }
-
-    return this.pictureRepository.remove(pictureToRemove);
+    return await this.pictureRepository.remove(found);
   }
 }

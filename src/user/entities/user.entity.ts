@@ -1,16 +1,16 @@
+import { Comment } from 'src/comment/entities/comment.entity';
 import { Role } from 'src/role/entities/role.entity';
 import { Store } from 'src/store/entities/store.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
 import {
-  Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
-@Entity({ name: 'user' })
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -42,9 +42,7 @@ export class User {
   @Column()
   role_id: number;
 
-  // Relations avec role store & comment
-
-  @ManyToOne(() => Role, (role) => role.id)
+  @ManyToOne(() => Role, (role) => role.id, { eager: true })
   @JoinColumn({ name: 'role_id' })
   role: Role;
 

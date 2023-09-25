@@ -8,7 +8,8 @@ export class LoginDto {
   mail: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   password: string;
 }
+

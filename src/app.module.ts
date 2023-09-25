@@ -12,16 +12,16 @@ import { StoreModule } from './store/store.module';
 import { UserModule } from './user/user.module';
 import { Appartenance } from './appartenance/entities/appartenance.entity';
 import { Category } from './category/entities/category.entity';
+import { Comment } from './comment/entities/comment.entity';
 import { Picture } from './picture/entities/picture.entity';
 import { Role } from './role/entities/role.entity';
 import { Store } from './store/entities/store.entity';
 import { User } from './user/entities/user.entity';
-import { Comment } from './comment/entities/comment.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: [`.env`] }),
+    ConfigModule.forRoot({ envFilePath: ['.env'] }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -41,7 +41,6 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     AuthModule,
   ],
-
   controllers: [AppController],
   providers: [AppService],
 })

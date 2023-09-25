@@ -1,16 +1,14 @@
-import { User } from 'src/user/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'role' })
+@Entity( {name: 'role'})
 export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'varchar', length: 20 })
-  role: string;
+    @Column({ type: 'varchar', length: 20 })
+    role: string;
 
-  // Relations avec l'es' entitée user
-
-  @OneToMany(() => User, (user) => user.role)
-  users: User[];
+    @OneToMany(() => User, (user) => user.role)
+    users: User[];
 }

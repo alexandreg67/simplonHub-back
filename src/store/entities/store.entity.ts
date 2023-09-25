@@ -1,21 +1,20 @@
-import { Category } from 'src/category/entities/category.entity';
 import { Picture } from 'src/picture/entities/picture.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
-
 import {
-  Column,
   Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  OneToOne,
 } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
 
-@Entity({ name: 'store' })
+@Entity('store')
 export class Store {
   @PrimaryGeneratedColumn()
   id: number;
@@ -53,8 +52,6 @@ export class Store {
   @Column({ nullable: true })
   picture_id: number | null;
 
-  // Relations avec les entitées user, picture comment & appatenance
-
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
@@ -63,7 +60,7 @@ export class Store {
   @JoinColumn({ name: 'picture_id' })
   picture: Picture | null;
 
-  @OneToMany(() => Comment, (comment) => comment.store)
+  @OneToMany(() => Comment, (comment) => comment.store, { eager: true })
   comments: Comment[];
 
   @ManyToMany(() => Category, (category) => category.stores, { eager: true })
@@ -74,4 +71,3 @@ export class Store {
   })
   categories: Category[];
 }
-

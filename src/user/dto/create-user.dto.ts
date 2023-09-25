@@ -1,11 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { Role } from "src/role/entities/role.entity";
+import { ManyToOne } from "typeorm";
+
 
 export class CreateUserDto {
   @ApiProperty()
@@ -36,7 +33,6 @@ export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @MaxLength(10)
-  @IsOptional()
   phone: string | null;
 
   @ApiProperty()
@@ -44,4 +40,17 @@ export class CreateUserDto {
   @MaxLength(60)
   @IsNotEmpty()
   password: string;
+
+ 
 }
+    
+
+// Uniquement ce qu'on va recevoir du front
+//   @ApiProperty()
+//   date_in: Date | null;
+    
+//   @ApiProperty()
+//   date_out: Date | null;
+    
+//   @ApiProperty()
+//   role_id: number;

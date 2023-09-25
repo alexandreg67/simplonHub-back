@@ -18,3 +18,4 @@ describe('AppartenanceController', () => {
     expect(controller).toBeDefined();
   });
 });
+

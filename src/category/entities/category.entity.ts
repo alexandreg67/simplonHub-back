@@ -1,5 +1,6 @@
-import { Store } from 'src/store/entities/store.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Appartenance } from "src/appartenance/entities/appartenance.entity";
+import { Store } from "src/store/entities/store.entity";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'category' })
 export class Category {
