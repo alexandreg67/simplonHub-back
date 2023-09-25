@@ -1,6 +1,6 @@
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Store } from './entities/store.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
