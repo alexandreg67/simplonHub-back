@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-  Query,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto/create-store.dto';
@@ -28,7 +27,7 @@ export class StoreController {
   }
 
   @Get('filter')
-  async getAllStores(): Promise<Store[]> {
+  async getAllstore(): Promise<Store[]> {
     return this.storeService.findAll();
   }
 
