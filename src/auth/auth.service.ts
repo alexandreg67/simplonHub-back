@@ -63,18 +63,25 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const { mail, password } = loginDto;
-    const user = await this.userRepository.findOneBy({ mail });
+    
+    // j'inclue le roleId dans le playload de mon token
+    const user = await this.userRepository.findOne({ where: { mail }, relations: ['role'] });
+    
+    if (!user) {
+      throw new UnauthorizedException('Utilisateur non trouvé');
+    }
+  
     const userId = user.id;
+    const roleId = user.role.id; // roleId depuis user entities  
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload = { mail, userId };
+      const payload = { mail, userId, roleId }; // Ajoute le roleIddans le payload
       const accessToken = await this.jwtService.sign(payload);
       return { accessToken };
     } else {
-      throw new UnauthorizedException(
-        'Ces identifiants ne sont pas bons, déso...',
-      );
+      throw new UnauthorizedException('Ces identifiants ne sont pas bons, désolé');
     }
   }
+  
 
   async validateToken(
     token: string,
