@@ -1,53 +1,53 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { Picture } from 'src/picture/entities/picture.entity';
 
 export class CreateStoreDto {
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsNotEmpty()
   name: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsNotEmpty()
   phone: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsOptional()
-  number: string | null;
+  number: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsOptional()
-  street: string | null;
+  street: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(150)
-  @IsOptional()
-  city: string | null;
+  city: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(5)
-  @IsOptional()
-  zip: string | null;
+  zip: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
   @IsOptional()
-  web: string | null;
+  web: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
   @IsOptional()
-  map: string | null;
+  map: string;
+
   @ApiProperty()
   @IsString()
   @MaxLength(255)
-  @IsOptional()
-  description: string | null;
+  description: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -56,7 +56,4 @@ export class CreateStoreDto {
   @ApiProperty()
   @IsOptional()
   picture_id: number | null;
-  // @ApiProperty({ example: [1, 2, 3] })
-  // @IsNotEmpty()
-  // category_id: number[];
 }

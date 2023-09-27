@@ -45,12 +45,13 @@ export class StoreService {
     if (!found.comments) {
       found.comments = [];
     }
-    console.log('je suis dans le store service et je log found : ', found);
+    // console.log('je suis dans le store service et je log found : ', found);
 
     return found;
   }
 
   async update(id: number, updateStoreDto: UpdateStoreDto) {
+    console.log('Je suis dans le storeService et je Logg', updateStoreDto);
     const storeToUpdate = await this.findOne(id);
     Object.assign(storeToUpdate, updateStoreDto);
     return this.storeRepository.save(storeToUpdate);
@@ -78,7 +79,7 @@ export class StoreService {
       .leftJoinAndSelect('store.comments', 'comment')
       .getMany();
 
-    console.log('je suis dans le store service et je log stores : ', stores);
+    // console.log('je suis dans le store service et je log stores : ', stores);
     return stores;
   }
 }
