@@ -13,14 +13,18 @@ import { CreatePictureDto } from './dto/create-picture.dto';
 import { UpdatePictureDto } from './dto/update-picture.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/guards/roles.decorator';
+import { RolesEnum } from 'src/guards/role.enum';
 
 @ApiTags('picture')
 @Controller('picture')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class PictureController {
   constructor(private readonly pictureService: PictureService) {}
 
   @Post()
+  @Roles(RolesEnum.Admin)
   create(@Body() createPictureDto: CreatePictureDto) {
     return this.pictureService.create(createPictureDto);
   }
@@ -36,11 +40,13 @@ export class PictureController {
   }
 
   @Patch(':id')
+  @Roles(RolesEnum.Admin)
   update(@Param('id') id: string, @Body() updatePictureDto: UpdatePictureDto) {
     return this.pictureService.update(+id, updatePictureDto);
   }
 
   @Delete(':id')
+  @Roles(RolesEnum.Admin)
   remove(@Param('id') id: string) {
     return this.pictureService.remove(+id);
   }
