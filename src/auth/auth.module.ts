@@ -16,9 +16,10 @@ import { UserService } from 'src/user/user.service';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       signOptions: { expiresIn: '1h' },
-      secret: process.env.SECRET_JWT,
+      secret: process.env.JWT_SECRET,
     }),
   ],
+
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UserService],
   exports: [JwtStrategy, PassportModule],
