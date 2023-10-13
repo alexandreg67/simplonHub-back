@@ -56,7 +56,4 @@ export class CreateStoreDto {
   @ApiProperty()
   @IsOptional()
   picture_id: number | null;
-  // @ApiProperty({ example: [1, 2, 3] })
-  // @IsNotEmpty()
-  // category_id: number[];
 }
